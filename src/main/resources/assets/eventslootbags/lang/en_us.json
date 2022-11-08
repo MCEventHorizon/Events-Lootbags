@@ -1,0 +1,9 @@
+{
+	"itemGroup.lootbagstab": "Event's Lootbags",
+	"item.eventslootbags.common_lootbag": "Common Lootbag",
+	"item.eventslootbags.uncommon_lootbag": "\u00A72Uncommon Lootbag",
+	"item.eventslootbags.rare_lootbag": "\u00A71Rare Lootbag",
+	"item.eventslootbags.epic_lootbag": "\u00A7dEpic Lootbag",
+	"item.eventslootbags.legendary_lootbag": "\u00A7eLegendary Lootbag",
+	"block.eventslootbags.bag_opener": "Bag Opener WIP"
+}
