@@ -1,0 +1,6 @@
+{
+	"parent": "minecraft:block/cube_all",
+	"textures": {
+		"all": "eventslootbags:blocks/bag_opener"
+	}
+}
