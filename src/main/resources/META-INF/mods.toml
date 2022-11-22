@@ -6,10 +6,10 @@ modId="eventslootbags"
 version="1.0"
 displayName="Event's Lootbags"
 logoFile="examplemod.png"
-credits="Thanks to TurtyWurty for his amazin tutorials!"
+credits="Thanks to TurtyWurty for his amazing tutorials!"
 authors="MCEventHorizon"
 
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-Lootbags mod based on Vanilla loot tables.
+Lootbags mod that uses Vanilla Minecraft's loot table system.
 '''
