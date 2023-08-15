@@ -1,6 +1,6 @@
 {
     "parent": "minecraft:item/generated",
     "textures": {
-        "layer0": "eventslootbags:items/uncommon_lootbag"
+        "layer0": "eventslootbags:item/uncommon_lootbag"
     }
 }

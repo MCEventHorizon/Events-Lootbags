@@ -1,6 +1,6 @@
 {
     "parent": "minecraft:item/generated",
     "textures": {
-        "layer0": "eventslootbags:item/common_lootbag"
+        "layer0": "eventslootbags:item/epic_lootbag"
     }
 }
