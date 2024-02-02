@@ -1,15 +1,11 @@
-modLoader="javafml" 
-loaderVersion="[45,)"
-license="MIT"
+modLoader="javafml"
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
 [[mods]]
-modId="eventslootbags"
-version="1.0"
+modId="${mod_id}"
+version="${mod_version}"
 displayName="Event's Lootbags"
 logoFile="eventslootbagslogo.png"
-credits="Thanks to TurtyWurty for his amazing tutorials!"
-authors="MCEventHorizon"
-
-# The description text for the mod (multi line!) (#mandatory)
-description='''
-Lootbags mod that uses Vanilla Minecraft's loot table system.
-'''
+credits="Thanks to TurtyWurty and mcjty for their amazing tutorials!"
+authors="${mod_authors}"
+description='''${mod_description}'''

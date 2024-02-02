@@ -1,6 +1,6 @@
 {
     "pack": {
-        "description": "eventslootbags resources",
-        "pack_format": 12
+        "description": "${mod_id} resources",
+        "pack_format": 22
     }
 }

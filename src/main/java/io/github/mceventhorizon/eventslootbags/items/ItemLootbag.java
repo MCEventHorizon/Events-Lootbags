@@ -1,7 +1,9 @@
 package io.github.mceventhorizon.eventslootbags.items;
 
+import java.util.HashMap;
 import java.util.List;
 
+import java.util.Map;
 import java.util.Objects;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -12,58 +14,52 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.jetbrains.annotations.NotNull;
 
 public class ItemLootbag extends Item{
 
-	private final ResourceLocation COMMON_LOOTBAG_LOCATION = new ResourceLocation("eventslootbags:eventslootbags/common_lootbag");
-	private final ResourceLocation UNCOMMON_LOOTBAG_LOCATION = new ResourceLocation("eventslootbags:eventslootbags/uncommon_lootbag");
-	private final ResourceLocation RARE_LOOTBAG_LOCATION = new ResourceLocation("eventslootbags:eventslootbags/rare_lootbag");
-	private final ResourceLocation EPIC_LOOTBAG_LOCATION = new ResourceLocation("eventslootbags:eventslootbags/epic_lootbag");
-	private final ResourceLocation LEGENDARY_LOOTBAG_LOCATION = new ResourceLocation("eventslootbags:eventslootbags/legendary_lootbag");
-	
+	private static final ResourceLocation COMMON_LOOTBAG_LOCATION = new ResourceLocation("eventslootbags:eventslootbags/common_lootbag");
+	private static final ResourceLocation UNCOMMON_LOOTBAG_LOCATION = new ResourceLocation("eventslootbags:eventslootbags/uncommon_lootbag");
+	private static final ResourceLocation RARE_LOOTBAG_LOCATION = new ResourceLocation("eventslootbags:eventslootbags/rare_lootbag");
+	private static final ResourceLocation EPIC_LOOTBAG_LOCATION = new ResourceLocation("eventslootbags:eventslootbags/epic_lootbag");
+	private static final ResourceLocation LEGENDARY_LOOTBAG_LOCATION = new ResourceLocation("eventslootbags:eventslootbags/legendary_lootbag");
+
+	private static final Map<String, ResourceLocation> resourceMap = new HashMap<>();
+
+	static {
+		resourceMap.put("eventslootbags:common_lootbag", COMMON_LOOTBAG_LOCATION);
+		resourceMap.put("eventslootbags:uncommon_lootbag", UNCOMMON_LOOTBAG_LOCATION);
+		resourceMap.put("eventslootbags:rare_lootbag", RARE_LOOTBAG_LOCATION);
+		resourceMap.put("eventslootbags:epic_lootbag", EPIC_LOOTBAG_LOCATION);
+		resourceMap.put("eventslootbags:legendary_lootbag", LEGENDARY_LOOTBAG_LOCATION);
+	}
 	public ItemLootbag(Properties properties) {
 		super(properties);
 	}
-	
-	@Override
-	public @NotNull InteractionResultHolder<ItemStack> use(Level level, @NotNull Player player, @NotNull InteractionHand hand) {
-		
-		if(!level.isClientSide) {
 
-			switch (Objects.requireNonNull(
-					ForgeRegistries.ITEMS.getKey(player.getItemInHand(hand).getItem())).toString()) {
-				case "eventslootbags:common_lootbag" ->
-						createLootTable(level, player, hand, COMMON_LOOTBAG_LOCATION);
-				case "eventslootbags:uncommon_lootbag" ->
-						createLootTable(level, player, hand, UNCOMMON_LOOTBAG_LOCATION);
-				case "eventslootbags:rare_lootbag" ->
-						createLootTable(level, player, hand, RARE_LOOTBAG_LOCATION);
-				case "eventslootbags:epic_lootbag" ->
-						createLootTable(level, player, hand, EPIC_LOOTBAG_LOCATION);
-				case "eventslootbags:legendary_lootbag" ->
-						createLootTable(level, player, hand, LEGENDARY_LOOTBAG_LOCATION);
-			}
-			
+	@Override
+	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+		if(!level.isClientSide) {
+			String itemId = ForgeRegistries.ITEMS.getKey(player.getItemInHand(hand).getItem()).toString();
+			createLootTable(level, player, hand, resourceMap.get(itemId));
 		}
-		return InteractionResultHolder.fail(player.getItemInHand(hand));
-				
+		return InteractionResultHolder.pass(player.getItemInHand(hand));
 	}
 	
 	private void createLootTable (Level level, Player player, InteractionHand hand, ResourceLocation location) {
 		
-		LootTable table = Objects.requireNonNull(level.getServer()).getLootTables().get(location);
-		
-		LootContext context = new LootContext.Builder((ServerLevel) level)
+		LootTable table = Objects.requireNonNull(level.getServer()).getLootData().getLootTable(location);
+
+		LootParams.Builder lootParamsBuilder = new LootParams.Builder((ServerLevel) level);
+
+		LootParams lootParams = lootParamsBuilder
 				.withLuck(player.getLuck())
-				.withRandom(level.getRandom())
 				.create(LootContextParamSets.EMPTY);
 		
-		List<ItemStack> stacks = table.getRandomItems(context);
+		List<ItemStack> stacks = table.getRandomItems(lootParams);
 		
 		for (ItemStack item : stacks) {
 			ItemEntity itemEntity = new ItemEntity(level, player.getX(), player.getY(), player.getZ(), item);
@@ -74,11 +70,5 @@ public class ItemLootbag extends Item{
 		if(!player.isCreative()) {
 			player.getItemInHand(hand).shrink(1);
 		}
-		player.getItemInHand(hand);
-
 	}
-
-	
-
-
 }
