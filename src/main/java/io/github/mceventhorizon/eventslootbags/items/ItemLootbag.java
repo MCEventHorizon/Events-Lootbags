@@ -45,6 +45,7 @@ public class ItemLootbag extends Item{
 		if(!level.isClientSide) {
 			String itemId = ForgeRegistries.ITEMS.getKey(player.getItemInHand(hand).getItem()).toString();
 			createLootTable(level, player, hand, resourceMap.get(itemId));
+			player.getCooldowns().addCooldown(this, 20);
 		}
 		return InteractionResultHolder.pass(player.getItemInHand(hand));
 	}
