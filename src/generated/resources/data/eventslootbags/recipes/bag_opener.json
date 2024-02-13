@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "tag": "eventslootbags:item_lootbag"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "P": {
+      "item": "minecraft:oak_planks"
+    }
+  },
+  "pattern": [
+    "IPI",
+    "PBP",
+    "IPI"
+  ],
+  "result": {
+    "item": "eventslootbags:bag_opener"
+  }
+}

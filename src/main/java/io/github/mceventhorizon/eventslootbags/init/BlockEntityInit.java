@@ -2,7 +2,6 @@ package io.github.mceventhorizon.eventslootbags.init;
 
 import io.github.mceventhorizon.eventslootbags.EventsLootbags;
 import io.github.mceventhorizon.eventslootbags.blockenitities.BagOpenerBlockEntity;
-import io.github.mceventhorizon.eventslootbags.blocks.BagOpener;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
