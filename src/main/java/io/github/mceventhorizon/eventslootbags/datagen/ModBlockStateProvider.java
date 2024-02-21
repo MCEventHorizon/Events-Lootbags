@@ -3,10 +3,9 @@ package io.github.mceventhorizon.eventslootbags.datagen;
 import io.github.mceventhorizon.eventslootbags.EventsLootbags;
 import io.github.mceventhorizon.eventslootbags.init.BlockInit;
 import net.minecraft.data.PackOutput;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.RegistryObject;
 
 public class ModBlockStateProvider extends BlockStateProvider {
 
@@ -17,10 +16,11 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
   @Override
   protected void registerStatesAndModels() {
-    blockWithItem(BlockInit.BAG_OPENER);
-  }
-
-  private <T extends Block> void blockWithItem (RegistryObject<T> blockRegistryObject) {
-    simpleBlockWithItem(blockRegistryObject.get(), cubeAll(blockRegistryObject.get()));
+    simpleBlockWithItem(BlockInit.BAG_OPENER.get(), models().cubeBottomTop(
+        "bag_opener",
+        new ResourceLocation(EventsLootbags.MODID, "block/" + BlockInit.BAG_OPENER.getId().getPath() + "_side"),
+        new ResourceLocation(EventsLootbags.MODID, "block/" + BlockInit.BAG_OPENER.getId().getPath() + "_bottom"),
+        new ResourceLocation(EventsLootbags.MODID, "block/" + BlockInit.BAG_OPENER.getId().getPath() + "_top")
+    ));
   }
 }

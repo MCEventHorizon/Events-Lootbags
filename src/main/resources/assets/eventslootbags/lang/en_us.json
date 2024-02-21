@@ -5,5 +5,6 @@
 	"item.eventslootbags.rare_lootbag": "\u00A71Rare Lootbag",
 	"item.eventslootbags.epic_lootbag": "\u00A7dEpic Lootbag",
 	"item.eventslootbags.legendary_lootbag": "\u00A7eLegendary Lootbag",
-	"block.eventslootbags.bag_opener": "Bag Opener WIP"
+	"block.eventslootbags.bag_opener": "Bag Opener",
+	"container.eventslootbags.bag_opener": "Bag Opener"
 }
