@@ -3,19 +3,15 @@ package io.github.mceventhorizon.eventslootbags.blockentities;
 import io.github.mceventhorizon.eventslootbags.EventsLootbags;
 import io.github.mceventhorizon.eventslootbags.init.BlockEntityInit;
 import io.github.mceventhorizon.eventslootbags.menu.BagOpenerMenu;
+import io.github.mceventhorizon.eventslootbags.util.LootBagLootGenerator;
 import io.github.mceventhorizon.eventslootbags.util.ModTags.Items;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -25,9 +21,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.loot.LootParams;
-import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
@@ -36,24 +29,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
 public class BagOpenerBlockEntity extends BlockEntity implements MenuProvider {
-
-  //TODO make a util class later
-
-  private static final ResourceLocation COMMON_LOOTBAG_LOCATION = new ResourceLocation("eventslootbags:eventslootbags/common_lootbag");
-  private static final ResourceLocation UNCOMMON_LOOTBAG_LOCATION = new ResourceLocation("eventslootbags:eventslootbags/uncommon_lootbag");
-  private static final ResourceLocation RARE_LOOTBAG_LOCATION = new ResourceLocation("eventslootbags:eventslootbags/rare_lootbag");
-  private static final ResourceLocation EPIC_LOOTBAG_LOCATION = new ResourceLocation("eventslootbags:eventslootbags/epic_lootbag");
-  private static final ResourceLocation LEGENDARY_LOOTBAG_LOCATION = new ResourceLocation("eventslootbags:eventslootbags/legendary_lootbag");
-
-  private static final Map<String, ResourceLocation> resourceMap = new HashMap<>();
-
-  static {
-    resourceMap.put("eventslootbags:common_lootbag", COMMON_LOOTBAG_LOCATION);
-    resourceMap.put("eventslootbags:uncommon_lootbag", UNCOMMON_LOOTBAG_LOCATION);
-    resourceMap.put("eventslootbags:rare_lootbag", RARE_LOOTBAG_LOCATION);
-    resourceMap.put("eventslootbags:epic_lootbag", EPIC_LOOTBAG_LOCATION);
-    resourceMap.put("eventslootbags:legendary_lootbag", LEGENDARY_LOOTBAG_LOCATION);
-  }
 
   public static final String INPUT_TAG = "InputInventory";
   public static final String OUTPUT_TAG = "OutputInventory";
@@ -67,7 +42,7 @@ public class BagOpenerBlockEntity extends BlockEntity implements MenuProvider {
 
   protected final ContainerData data;
   private int progress = 0;
-  private int maxProgress = 78;
+  private int maxProgress = 200;
 
   public BagOpenerBlockEntity(BlockPos pos, BlockState state) {
     super(BlockEntityInit.BAG_OPENER_BLOCK_ENTITY.get(), pos, state);
@@ -111,7 +86,7 @@ public class BagOpenerBlockEntity extends BlockEntity implements MenuProvider {
     var lootbagModData = new CompoundTag();
     lootbagModData.put(INPUT_TAG, this.inventoryInput.serializeNBT());
     lootbagModData.put(OUTPUT_TAG, this.inventoryOutput.serializeNBT());
-    lootbagModData.putInt(PROGRESS_TAG, progress);
+    nbt.putInt(PROGRESS_TAG, progress);
     nbt.put(EventsLootbags.MODID, lootbagModData);
   }
 
@@ -187,7 +162,9 @@ public class BagOpenerBlockEntity extends BlockEntity implements MenuProvider {
   }
 
   private void craftItem(Level level, String location) {
-    List<ItemStack> lootItems = generateLootItems(level, resourceMap.get(location));
+    List<ItemStack> lootItems = LootBagLootGenerator.generateLootItems(
+        level, LootBagLootGenerator.getResourceMap().get(location)
+    );
     if (lootItems.size() < getAvailableSlots().size()) {
       ArrayList<Integer> slots = getAvailableSlots();
 
@@ -211,17 +188,6 @@ public class BagOpenerBlockEntity extends BlockEntity implements MenuProvider {
 
   public LazyOptional<ItemStackHandler> getOutputOptional () {
     return outputOptional;
-  }
-
-  private List<ItemStack> generateLootItems (Level level, ResourceLocation location) {
-
-    LootTable table = Objects.requireNonNull(level.getServer()).getLootData().getLootTable(location);
-
-    LootParams.Builder lootParamsBuilder = new LootParams.Builder((ServerLevel) level);
-
-    LootParams lootParams = lootParamsBuilder.create(LootContextParamSets.EMPTY);
-
-    return table.getRandomItems(lootParams);
   }
 
   private ArrayList<Integer> getAvailableSlots () {
