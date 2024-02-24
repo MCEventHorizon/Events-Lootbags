@@ -82,6 +82,6 @@ public class BagOpener extends Block implements EntityBlock {
   public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel,
       @NotNull BlockState pState, @NotNull BlockEntityType<T> pBlockEntityType) {
     return pLevel.isClientSide() ? null : ((lvl, pos, state, be) ->
-        ((BagOpenerBlockEntity)be).tickServer(lvl, pos, state));
+        ((BagOpenerBlockEntity)be).tickServer(lvl));
   }
 }
