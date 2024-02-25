@@ -89,7 +89,6 @@ public class BagOpenerBlockEntity extends BlockEntity implements MenuProvider {
     progress = nbt.getInt(PROGRESS_TAG);
   }
 
-  //TODO drop buffer when broken
   @Override
   protected void saveAdditional(@NotNull CompoundTag nbt) {
     super.saveAdditional(nbt);
@@ -203,7 +202,6 @@ public class BagOpenerBlockEntity extends BlockEntity implements MenuProvider {
     });
     inventoryInput.extractItem(0, 1, false);
     resetProgress();
-    System.out.println(itemBuffer.toString());
   }
 
   private void resetProgress() {
