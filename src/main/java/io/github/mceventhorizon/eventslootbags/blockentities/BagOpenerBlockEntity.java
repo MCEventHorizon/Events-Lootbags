@@ -7,6 +7,7 @@ import io.github.mceventhorizon.eventslootbags.util.LootBagLootGenerator;
 import io.github.mceventhorizon.eventslootbags.util.ModTags.Items;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -149,7 +150,10 @@ public class BagOpenerBlockEntity extends BlockEntity implements MenuProvider {
     if(canCraft()) {
       if(hasProgressFinished()) {
         if(bufferIsEmpty()) {
-          craftItem(level, ForgeRegistries.ITEMS.getKey(inventoryInput.getStackInSlot(0).getItem()).toString());
+          craftItem(
+                  level,
+                  Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(inventoryInput.getStackInSlot(0).getItem())).toString()
+          );
           setChanged();
         }
       } else {
@@ -232,14 +236,8 @@ public class BagOpenerBlockEntity extends BlockEntity implements MenuProvider {
     for (int i = 0; i < tagList.size(); i++)
     {
       CompoundTag itemTags = tagList.getCompound(i);
-      int slot = itemTags.getInt("Slot");
-
-      if (slot >= 0 && slot < itemBuffer.size())
-      {
-        itemBuffer.set(slot, ItemStack.of(itemTags));
-      }
+        itemBuffer.add(ItemStack.of(itemTags));
     }
-    onLoad();
   }
 
   public LazyOptional<ItemStackHandler> getInputOptional () {
@@ -248,6 +246,10 @@ public class BagOpenerBlockEntity extends BlockEntity implements MenuProvider {
 
   public LazyOptional<ItemStackHandler> getOutputOptional () {
     return outputOptional;
+  }
+
+  public List<ItemStack> getItemBuffer() {
+    return itemBuffer;
   }
 
 }

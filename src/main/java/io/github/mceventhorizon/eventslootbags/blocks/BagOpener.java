@@ -64,14 +64,14 @@ public class BagOpener extends Block implements EntityBlock {
     if(!level.isClientSide()) {
       BlockEntity be = level.getBlockEntity(pos);
       if (be instanceof BagOpenerBlockEntity blockEntity) {
-        blockEntity.getInputOptional().ifPresent(inventory -> {
-          Block.popResource(level, pos, inventory.getStackInSlot(0));
-        });
+        blockEntity.getInputOptional().ifPresent(inventory -> Block.popResource(level, pos, inventory.getStackInSlot(0)));
         blockEntity.getOutputOptional().ifPresent(inventory -> {
           for (int index = 0; index < inventory.getSlots(); index++) {
             Block.popResource(level, pos, inventory.getStackInSlot(index));
           }
         });
+        var bufferItems = blockEntity.getItemBuffer();
+        bufferItems.forEach(item -> Block.popResource(level, pos, item));
       }
       super.onRemove(state, level, pos, newState, movedByPiston);
     }
