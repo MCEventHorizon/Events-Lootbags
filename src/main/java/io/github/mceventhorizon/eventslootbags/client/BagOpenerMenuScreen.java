@@ -34,14 +34,12 @@ public class BagOpenerMenuScreen extends AbstractContainerScreen<BagOpenerMenu> 
     RenderSystem.setShader(GameRenderer::getPositionTexShader);
     RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
     RenderSystem.setShaderTexture(0, GUI_TEXTURE);
-    int x = (width - imageWidth) / 2;
-    int y = (height - imageWidth) / 2;
 
     pGuiGraphics.blit(GUI_TEXTURE, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight);
-    renderProgressArrow(pGuiGraphics, x, y);
+    renderProgressArrow(pGuiGraphics);
   }
 
-  private void renderProgressArrow(GuiGraphics guiGraphics, int x, int y) {
+  private void renderProgressArrow(GuiGraphics guiGraphics) {
     if (menu.isCrafting()) {
       guiGraphics.blit(GUI_TEXTURE, leftPos + 49, topPos + 35, 176, 0, menu.getScaledProgress(), 15);
     }

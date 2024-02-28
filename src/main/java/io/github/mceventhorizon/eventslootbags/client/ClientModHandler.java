@@ -13,8 +13,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 public class ClientModHandler {
   @SubscribeEvent
   public static void clientSetup(FMLClientSetupEvent event) {
-    event.enqueueWork(() -> {
-      MenuScreens.register(MenuInit.BAG_OPENER_MENU.get(), BagOpenerMenuScreen::new);
-    });
+    event.enqueueWork(() -> MenuScreens.register(MenuInit.BAG_OPENER_MENU.get(), BagOpenerMenuScreen::new));
   }
 }
