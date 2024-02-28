@@ -1,0 +1,9 @@
+{
+  "values": [
+    "eventslootbags:common_lootbag",
+    "eventslootbags:uncommon_lootbag",
+    "eventslootbags:rare_lootbag",
+    "eventslootbags:epic_lootbag",
+    "eventslootbags:legendary_lootbag"
+  ]
+}
