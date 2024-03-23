@@ -1,0 +1,11 @@
+{
+  "type": "eventslootbags:add_bag",
+  "conditions": [
+    {
+      "condition": "minecraft:entity_properties",
+      "entity": "this",
+      "predicate": {}
+    }
+  ],
+  "item": "eventslootbags:common_lootbag"
+}

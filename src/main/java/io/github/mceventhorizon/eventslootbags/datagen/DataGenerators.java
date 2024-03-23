@@ -2,6 +2,8 @@ package io.github.mceventhorizon.eventslootbags.datagen;
 
 import io.github.mceventhorizon.eventslootbags.EventsLootbags;
 import java.util.concurrent.CompletableFuture;
+
+import io.github.mceventhorizon.eventslootbags.datagen.loot.ModGlobalLootModifiersProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
@@ -31,5 +33,6 @@ public class DataGenerators {
 
     generator.addProvider(event.includeServer(), new ModItemTagProvider(packOutput,
         lookupProvider, tagProvider.contentsGetter(), existingFileHelper));
+    generator.addProvider(event.includeServer(), new ModGlobalLootModifiersProvider(packOutput));
   }
 }
